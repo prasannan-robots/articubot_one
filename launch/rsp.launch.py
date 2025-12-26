@@ -42,6 +42,9 @@ def generate_launch_description():
             'use_ros2_control',
             default_value='true',
             description='Use ros2_control if true'),
-
+                    Node(
+            package='joint_state_publisher_gui',
+            executable='joint_state_publisher_gui'
+        ),
         node_robot_state_publisher
     ])

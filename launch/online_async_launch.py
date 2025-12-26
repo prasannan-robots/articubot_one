@@ -1,5 +1,4 @@
 import os
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, LogInfo
 from launch.conditions import UnlessCondition
@@ -17,12 +16,12 @@ def generate_launch_description():
 
     declare_use_sim_time_argument = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='true',
+        default_value='false',
         description='Use simulation/Gazebo clock')
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=default_params_file,
-        description='Full path to the ROS2 parameters file to use for the slam_toolbox node')
+        description='/home/cat/caterpillar_ws/src/articubot_one/config/mapper_params_online_async.yaml')
 
     # If the provided param file doesn't have slam_toolbox params, we must pass the
     # default_params_file instead. This could happen due to automatic propagation of
@@ -48,6 +47,15 @@ def generate_launch_description():
         executable='async_slam_toolbox_node',
         name='slam_toolbox',
         output='screen')
+    ekf_config = os.path.join(get_package_share_directory("articubot_one"), 'config', 'ekf.yaml')
+    ekf_node = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        output='screen',
+        parameters=[ekf_config],
+        remappings=[('/odometry/filtered', '/odom')]
+    )
 
     ld = LaunchDescription()
 
@@ -55,5 +63,5 @@ def generate_launch_description():
     ld.add_action(declare_params_file_cmd)
     ld.add_action(log_param_change)
     ld.add_action(start_async_slam_toolbox_node)
-
+    ld.add_action(ekf_node)
     return ld
