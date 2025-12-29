@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<sdf version="1.10">
+  <world name="default">
+    <!-- Add this to find your local models -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.02 0.02 0.02 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Include your moon model -->
+    <include>
+      <uri>file:///home/prasanna/Projects/caterpillar_ws/src/articubot_one/models/moon</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- Rest of world config -->
+    <physics type="ignition-physics">
+      <engine>
+        <filename>ignition-physics-dartsim-plugin</filename>
+      </engine>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <gravity>0 0 -1.62</gravity>
+
+    <!-- Lighting and scene -->
+    <light name="sun_directional" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>200 0 14 0 0 0</pose>
+      <diffuse>0.7 0.7 0.7 1</diffuse>
+      <specular>0.001 0.001 0.001 1</specular>
+      <direction>-1 -0.1 -0.15</direction>
+      <attenuation>
+        <range>1000</range>
+        <constant>1</constant>
+        <linear>0</linear>
+      </attenuation>
+    </light>
+
+    <scene>
+      <ambient>0.30 0.30 0.30 1.0</ambient>
+      <background>0.0 0.0 0.0 1</background>
+      <origin_visual>false</origin_visual>
+      <grid>false</grid>
+      <shadows>true</shadows>
+    </scene>
+  </world>
+</sdf>

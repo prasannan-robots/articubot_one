@@ -2,8 +2,8 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
 <link name="base_footprint"/>   
-  
   <link
+      
     name="chassis">
     <inertial>
       <origin
@@ -33,16 +33,23 @@
           rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="file://$(find articubot_one)/meshes/chassis.STL" />
-      </geometry>
-    </collision>
+<collision name="chassis_collision">
+  <geometry>
+    <box size="0.3 0.3 0.15"/>
+  </geometry>
+</collision>
   </link>
+  <!-- IMU Link -->
+      <link name="imu_link">
+       
+      </link>
+
+      <!-- IMU Joint (fixed to chassis) -->
+      <joint name="imu_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      </joint>
   <link
     name="wheel1">
     <inertial>
@@ -65,7 +72,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-		filename="file://$(find articubot_one)/meshes/wheel1.STL" />
+    filename="file://$(find articubot_one)/meshes/wheel1.STL" />
       </geometry>
       <material
         name="">
@@ -73,15 +80,11 @@
           rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="file://$(find articubot_one)/meshes/wheel1.STL" />
-      </geometry>
-    </collision>
+<collision name="wheel1_collision">
+  <geometry>
+    <cylinder radius="0.1" length="0.05"/>
+  </geometry>
+</collision>
   </link>
   
   <joint name="base_footprint_to_chassis" type="fixed">
@@ -95,7 +98,7 @@
     name="wheel1_joint"
     type="continuous">
     <origin
-      xyz="0.23 -0.285 -0.2"
+      xyz="0.23 -0.285 -0.25"
       rpy="-1.5708 0 0" />
     <parent
       link="chassis" />
@@ -103,11 +106,7 @@
       link="wheel1" />
     <axis
       xyz="0 0 1" />
-    <limit
-      lower="60"
-      upper="45"
-      effort="7.6"
-      velocity="5.24" />
+    <limit effort="1000.0" velocity="20.0" />
     <dynamics
       damping="0.2"
       friction="0.25" />
@@ -142,21 +141,17 @@
           rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="file://$(find articubot_one)/meshes/wheel2.STL" />
-      </geometry>
-    </collision>
+    <collision name="wheel2_collision">
+  <geometry>
+    <cylinder radius="0.1" length="0.05"/>
+  </geometry>
+</collision>
   </link>
   <joint
     name="wheel2_joint"
     type="continuous">
     <origin
-      xyz="-0.23 -0.285 -0.2"
+      xyz="-0.23 -0.285 -0.25"
       rpy="-1.5708 0 0" />
     <parent
       link="chassis" />
@@ -164,7 +159,7 @@
       link="wheel2" />
     <axis
       xyz="0 0 1" />
-    
+    <limit effort="1000.0" velocity="20.0" />
   </joint>
   <link
     name="wheel3">
@@ -196,17 +191,13 @@
           rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-		filename="file://$(find articubot_one)/meshes/wheel3.STL" />
-      </geometry>
-    </collision>
+  <collision name="wheel3_collision">
+  <geometry>
+    <cylinder radius="0.1" length="0.05"/>
+  </geometry>
+</collision>
   </link>
-  <joint
+<joint
     name="wheel3_joint"
     type="continuous">
     <origin
@@ -220,6 +211,7 @@
       xyz="0 0 -1" />
     
   </joint>
+
   
   <link
     name="wheel4">
@@ -251,21 +243,17 @@
           rgba="0.79216 0.81961 0.93333 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="file://$(find articubot_one)/meshes/wheel4.STL" />
-      </geometry>
-    </collision>
+   <collision name="wheel4_collision">
+  <geometry>
+    <cylinder radius="0.1" length="0.05"/>
+  </geometry>
+</collision>
   </link>
   <joint
     name="wheel4_joint"
     type="continuous">
     <origin
-      xyz="-0.23 0.285 -0.2"
+      xyz="-0.23 0.285 -0.25"
       rpy="-1.5708 0 0" />
     <parent
       link="chassis" />
@@ -273,7 +261,7 @@
       link="wheel4" />
     <axis
       xyz="0 0 -1" />
-   
+   <limit effort="1000.0" velocity="20.0" />
   </joint>
   <link
     name="laser_frame">
@@ -305,15 +293,11 @@
           rgba="1 1 1 1" />
       </material>
     </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="file://$(find articubot_one)/meshes/lidar.STL" />
-      </geometry>
-    </collision>
+  <collision name="laser_frame_collision">
+  <geometry>
+    <cylinder radius="0.1" length="0.05"/>
+  </geometry>
+</collision>
   </link>
   <joint
     name="lidar_joint"
@@ -328,4 +312,5 @@
     <axis
       xyz="0 0 0" />
   </joint>
+  
 </robot>

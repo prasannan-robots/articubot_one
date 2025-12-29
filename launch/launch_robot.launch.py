@@ -73,7 +73,7 @@ def generate_launch_description():
     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["diff_cont"],
+        arguments=["diff_drive_controller"],
     )
 
     delayed_diff_drive_spawner = RegisterEventHandler(
@@ -86,7 +86,7 @@ def generate_launch_description():
     joint_broad_spawner = Node(
         package="controller_manager",
         executable="spawner.py",
-        arguments=["joint_broad"],
+        arguments=["joint_state_broadcaster"],
     )
 
     delayed_joint_broad_spawner = RegisterEventHandler(
